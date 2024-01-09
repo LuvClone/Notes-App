@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -19,6 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
         MyDB.execSQL("create Table users(email TEXT primary key, password TEXT)");
+        MyDB.execSQL("create Table notes(IdNote INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, describtion TEXT, email TEXT not null references users (email))");
     }
 
     @Override
@@ -54,4 +58,74 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
         else return false;
     }
+
+    public ArrayList<Note> GetAllNote(String email){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ArrayList<Note> Notes = new ArrayList<>();
+        Cursor cursor = MyDB.rawQuery("select * from Notes where email = ?", new String[] {email});
+        if(cursor.getCount()>0){
+            while (cursor.moveToNext()){
+                int IdNote = cursor.getInt(cursor.getColumnIndexOrThrow("IdNote"));
+                String NoteTittle = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                String NoteContent = cursor.getString(cursor.getColumnIndexOrThrow("describtion"));
+
+                Note note = new Note();
+                note.setIdNote(IdNote);
+                note.setNoteTitle(NoteTittle);
+                note.setNoteContent(NoteContent);
+
+                Notes.add(note);
+
+            }
+
+        }
+        cursor.close();
+        MyDB.close();
+        return Notes;
+    }
+
+    public long AddNote( Note note){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("email", note.getEmail());
+        contentValues.put("title", note.getNoteTitle());
+        contentValues.put("describtion", note.getNoteContent());
+
+        long idNote = MyDB.insert("notes", null, contentValues);
+        MyDB.close();
+        return idNote;
+    }
+
+    public void DeleteNote(Note note){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+
+        Log.d("cdmm", String.valueOf(note.getIdNote()));
+        String where = "IdNote" + "=?";
+        String[] arg = {String.valueOf(note.getIdNote())};
+        MyDB.delete("notes", where, arg);
+        MyDB.close();
+    }
+
+    public void EditNote(Note note){
+        Log.d("kasdasd", "" + note.getIdNote());
+        Log.d("kasdasd", "" + note.getNoteContent());
+        Log.d("kasdasd", "" + note.getNoteTitle());
+        Log.d("kasdasd", "" + note.getEmail());
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", note.getNoteTitle());
+        contentValues.put("describtion", note.getNoteContent());
+        Log.d("kasdasd", "" + note.getIdNote());
+        Log.d("kasdasd", "" + note.getNoteContent());
+        Log.d("kasdasd", "" + note.getNoteTitle());
+        Log.d("kasdasd", "" + note.getEmail());
+
+
+
+        String where = "IdNote" + "= ?";
+        String[] arg = {String.valueOf(note.getIdNote())};
+        MyDB.update("notes", contentValues, where, arg);
+        MyDB.close();
+    }
+
 }

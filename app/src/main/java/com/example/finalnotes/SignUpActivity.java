@@ -49,10 +49,11 @@ public class SignUpActivity extends AppCompatActivity {
                             Boolean insert = DB.insertData(user, pass);
                             if(insert==true){
                                 Toast.makeText(SignUpActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                                intent.putExtra("email", user);
                                 startActivity(intent);
                             }else{
-                                Toast.makeText(SignUpActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+
                             }
                         }
                         else {
@@ -77,7 +78,4 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    void CreateAccount(){
-
-    }
 }

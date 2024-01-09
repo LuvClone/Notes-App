@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:background="@color/firstColor"
+    android:layout_height="match_parent"
+    tools:context=".NoteDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/IittleBar"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/PageTitle"
+            android:text="Your Note"
+            android:textColor="@color/black"
+            android:textSize="32sp"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/DoneBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/baseline_done_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            />
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/IittleBar"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginVertical="26dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/rounded_corner">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NoteTittle"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:hint="Tittle"
+            android:layout_marginVertical="8dp"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ContentText"
+            android:textSize="16sp"
+            android:minLines="22"
+            android:gravity="top"
+            android:hint="Content"
+            android:layout_marginVertical="8dp"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

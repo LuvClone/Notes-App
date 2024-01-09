@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,8 +42,10 @@ public class LogInActivity extends AppCompatActivity {
                     Boolean checkuserpass = DB.checkpassword(user, pass);
                     if(checkuserpass==true){
                         Toast.makeText(LogInActivity.this, "Sign in successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
+                        intent.putExtra("email",user);
                         startActivity(intent);
+
                     }
                     else{
                         Toast.makeText(LogInActivity.this, "Wrong email or password!!", Toast.LENGTH_SHORT).show();
